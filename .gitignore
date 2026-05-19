@@ -1,0 +1,9 @@
+node_modules/
+.env
+dist/
+
+# Prisma
+prisma/migrations/*.sql
+
+# Logs
+*.log
