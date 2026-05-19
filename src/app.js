@@ -5,10 +5,20 @@ const webhookRoutes = require('./routes/webhook');
 function buildApp(opts = {}) {
   const isDev = process.env.NODE_ENV !== 'production';
 
+  let loggerConfig;
+  if (isDev) {
+    try {
+      require('pino-pretty');
+      loggerConfig = { transport: { target: 'pino-pretty', options: { colorize: true } } };
+    } catch {
+      loggerConfig = true;
+    }
+  } else {
+    loggerConfig = true;
+  }
+
   const app = Fastify({
-    logger: isDev
-      ? { transport: { target: 'pino-pretty', options: { colorize: true } } }
-      : true,
+    logger: loggerConfig,
     ...opts,
   });
 
